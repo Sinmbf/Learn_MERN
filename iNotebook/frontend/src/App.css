@@ -1,0 +1,52 @@
+.main {
+    min-height: 100vh;
+    background: url("./assets/background4.jpg");
+    background-size: cover;
+    background-position: center;
+    position: relative;
+  }
+  
+  .form {
+    display: flex;
+    min-height: 22rem;
+    flex-direction: column;
+    justify-content: center;
+    background: transparent;
+    position: relative;
+    z-index: 1;
+  }
+  
+  .form::after {
+    content: "";
+    position: absolute;
+    z-index: -1;
+    height: 100%;
+    width: 100%;
+    top: 0;
+    left: 0;
+    background: rgb(53, 17, 136);
+    filter: blur(6rem);
+  }
+  
+  .form-label {
+    color: white;
+  }
+  
+  .btn-primary {
+    background: rgb(106, 23, 173);
+    border: 2px solid rgb(106, 23, 173);
+  }
+  .btn-primary:hover {
+    background: rgb(141, 54, 212);
+    border: 2px solid rgb(141, 54, 212);
+  }
+  
+  .btn-primary:disabled {
+    background: rgb(141, 54, 212);
+    border: 2px solid rgb(141, 54, 212);
+  }
+
+  i{
+    cursor:pointer;
+  }
+  
