@@ -1,10 +1,69 @@
 import { useState } from "react";
+import { useSnackbar } from "notistack";
+import axios from "axios";
+import { useNavigate } from "react-router-dom";
 
 const Register = () => {
+  const [credentials, setCredentials] = useState({
+    username: "",
+    email: "",
+    password: "",
+    cpassword: "",
+  });
   const [showPassword, setShowPassword] = useState(false);
+  const [error, setError] = useState({ emailErr: "", passErr: "" });
+  const { enqueueSnackbar } = useSnackbar();
+  const navigate = useNavigate();
+  // Function to handle submit
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    // Check if both passwords are correct
+    const { password, cpassword } = credentials;
+    if (password !== cpassword) {
+      setError((currentError) => {
+        return { ...currentError, passErr: "Passwords don't match" };
+      });
+      setTimeout(() => {
+        setError({ emailErr: "", passErr: "" });
+      }, 2500);
+      return;
+    }
+    try {
+      // Provide user details to the backend server to create an account
+      const response = await axios.post(
+        "http://localhost:5000/register",
+        credentials
+      );
+      // Send an alert
+      enqueueSnackbar(response.data.message, { variant: "success" });
+      // After creating account, redirect to login page
+      navigate("/login");
+    } catch (error) {
+      enqueueSnackbar("Registration failed", {
+        variant: "error",
+      });
+      // Handle the error
+      setError((currentError) => {
+        return { ...currentError, emailErr: error.response.data.error };
+      });
+      setTimeout(() => {
+        setError({ emailErr: "", passErr: "" });
+      }, 2500);
+    }
+  };
+
+  // Function to handle onChange
+  const handleChange = (e) => {
+    setCredentials((currentCredentials) => {
+      return { ...currentCredentials, [e.target.name]: e.target.value };
+    });
+  };
   return (
     <div className="flex justify-center">
-      <form className="grid grid-cols-1 border-2 border-indigo-900 p-8 rounded-md h-full max-w-lg w-full">
+      <form
+        className="grid grid-cols-1 border-2 border-indigo-900 p-8 rounded-md h-full max-w-lg w-full"
+        onSubmit={handleSubmit}
+      >
         <div className="text-center text-3xl mb-4 text-indigo-800">
           <h2>Create a new account</h2>
         </div>
@@ -21,11 +80,9 @@ const Register = () => {
             placeholder="Eg: Sinmbf"
             className="border-2 border-indigo-600 rounded-md p-2 w-full focus:outline-none focus:border-blue-500"
             required
+            minLength={3}
+            onChange={handleChange}
           />
-          {/* Username Error Display */}
-          <div className="text-sm text-red-700">
-            Incorrect email or password
-          </div>
         </div>
         {/* Email */}
         <div className="mb-3">
@@ -40,10 +97,11 @@ const Register = () => {
             placeholder="Eg: sinmbf@gmail.com"
             className="border-2 border-indigo-600 rounded-md p-2 w-full focus:outline-none focus:border-blue-500"
             required
+            onChange={handleChange}
           />
           {/* Email Error Display */}
-          <div className="text-sm text-red-700">
-            Incorrect email or password
+          <div className="text-sm text-red-700 h-2.5">
+            {error.emailErr && error.emailErr}
           </div>
         </div>
         {/* Password */}
@@ -59,6 +117,7 @@ const Register = () => {
             className="inline border-2 border-indigo-600 rounded-md p-2 w-full focus:outline-none focus:border-blue-500"
             required
             minLength={5}
+            onChange={handleChange}
           />
 
           <span
@@ -72,8 +131,8 @@ const Register = () => {
             />
           </span>
           {/* Password Error Display */}
-          <div className="text-sm text-red-700">
-            Incorrect email or password
+          <div className="text-sm text-red-700 h-2.5">
+            {error.passErr && error.passErr}
           </div>
         </div>
         {/* Confirm Password */}
@@ -89,6 +148,7 @@ const Register = () => {
             className="inline border-2 border-indigo-600 rounded-md p-2 w-full focus:outline-none focus:border-blue-500"
             required
             minLength={5}
+            onChange={handleChange}
           />
 
           <span
@@ -102,8 +162,8 @@ const Register = () => {
             />
           </span>
           {/* Password Error Display */}
-          <div className="text-sm text-red-700">
-            Incorrect email or password
+          <div className="text-sm text-red-700 h-2.5">
+            {error.passErr && error.passErr}
           </div>
         </div>
         {/* Register button */}
