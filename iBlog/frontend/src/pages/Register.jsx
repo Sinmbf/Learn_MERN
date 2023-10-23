@@ -4,7 +4,7 @@ const Register = () => {
   const [showPassword, setShowPassword] = useState(false);
   return (
     <div className="flex justify-center">
-      <form className="grid grid-cols-1 border-2 border-indigo-900 p-8 rounded-md h-full">
+      <form className="grid grid-cols-1 border-2 border-indigo-900 p-8 rounded-md h-full max-w-lg w-full">
         <div className="text-center text-3xl mb-4 text-indigo-800">
           <h2>Create a new account</h2>
         </div>
@@ -19,7 +19,7 @@ const Register = () => {
             name="username"
             autoComplete="username"
             placeholder="Eg: Sinmbf"
-            className="border-2 border-indigo-600 rounded-md p-2 sm:w-96 w-72 focus:outline-none focus:border-blue-500"
+            className="border-2 border-indigo-600 rounded-md p-2 w-full focus:outline-none focus:border-blue-500"
             required
           />
           {/* Username Error Display */}
@@ -38,7 +38,7 @@ const Register = () => {
             name="email"
             autoComplete="username"
             placeholder="Eg: sinmbf@gmail.com"
-            className="border-2 border-indigo-600 rounded-md p-2 sm:w-96 w-72 focus:outline-none focus:border-blue-500"
+            className="border-2 border-indigo-600 rounded-md p-2 w-full focus:outline-none focus:border-blue-500"
             required
           />
           {/* Email Error Display */}
@@ -56,7 +56,7 @@ const Register = () => {
             id="password"
             name="password"
             autoComplete="password"
-            className="inline border-2 border-indigo-600 rounded-md p-2 sm:w-96 w-72 focus:outline-none focus:border-blue-500"
+            className="inline border-2 border-indigo-600 rounded-md p-2 w-full focus:outline-none focus:border-blue-500"
             required
             minLength={5}
           />
@@ -86,7 +86,7 @@ const Register = () => {
             id="cpassword"
             name="cpassword"
             autoComplete="cpassword"
-            className="inline border-2 border-indigo-600 rounded-md p-2 sm:w-96 w-72 focus:outline-none focus:border-blue-500"
+            className="inline border-2 border-indigo-600 rounded-md p-2 w-full focus:outline-none focus:border-blue-500"
             required
             minLength={5}
           />
