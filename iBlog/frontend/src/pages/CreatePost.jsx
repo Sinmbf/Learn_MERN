@@ -6,6 +6,7 @@ import { useNavigate } from "react-router-dom";
 import Editor from "../components/Editor";
 
 const CreatePost = () => {
+  const host = "https://iblogs-backend-yhqi.onrender.com";
   const [postInfo, setPostInfo] = useState({});
   const [content, setContent] = useState("");
   const [file, setFile] = useState("");
@@ -27,11 +28,9 @@ const CreatePost = () => {
     data.set("file", file[0]);
     try {
       // Send the information to the backend server
-      const response = await axios.post(
-        "http://localhost:5000/createpost",
-        data,
-        { withCredentials: true }
-      );
+      const response = await axios.post(`${host}/createpost`, data, {
+        withCredentials: true,
+      });
       // Send alert to the user
       enqueueSnackbar(response.data.message, { variant: "success" });
       // Redirect to the home page

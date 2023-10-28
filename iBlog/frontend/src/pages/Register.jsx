@@ -4,6 +4,7 @@ import axios from "axios";
 import { useNavigate } from "react-router-dom";
 
 const Register = () => {
+  const host = "https://iblogs-backend-yhqi.onrender.com";
   const [credentials, setCredentials] = useState({
     username: "",
     email: "",
@@ -30,10 +31,7 @@ const Register = () => {
     }
     try {
       // Provide user details to the backend server to create an account
-      const response = await axios.post(
-        "http://localhost:5000/register",
-        credentials
-      );
+      const response = await axios.post(`${host}/register`, credentials);
       // Send an alert
       enqueueSnackbar(response.data.message, { variant: "success" });
       // After creating account, redirect to login page

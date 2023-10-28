@@ -10,6 +10,7 @@ const BlogItem = ({
   createdAt,
   updatedAt,
 }) => {
+  const host = "https://iblogs-backend-yhqi.onrender.com/";
   return (
     <div className="blog-entry max-w-3xl mx-3 bg-gray-200 rounded-xl shadow-md overflow-hidden md:max-w-4xl mb-8 md:mx-3">
       {/* Blog Image */}
@@ -17,7 +18,7 @@ const BlogItem = ({
         <div className="md:shrink-0">
           <Link to={`/post/${_id}`}>
             <img
-              src={"http://localhost:5000/" + imagePath}
+              src={`${host}` + imagePath}
               alt=""
               className="w-full h-50 object-cover md:h-full md:w-64"
             />

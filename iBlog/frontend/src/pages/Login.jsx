@@ -5,6 +5,7 @@ import { useNavigate } from "react-router-dom";
 import { UserContext } from "../context/userContext";
 
 const Login = () => {
+  const host = "https://iblogs-backend-yhqi.onrender.com";
   const { setUserInfo } = useContext(UserContext);
   const [showPassword, setShowPassword] = useState(false);
   const [credentials, setCredentials] = useState({ email: "", password: "" });
@@ -16,11 +17,9 @@ const Login = () => {
     e.preventDefault();
     try {
       // Send the details to the backend server
-      const response = await axios.post(
-        "http://localhost:5000/login",
-        credentials,
-        { withCredentials: true }
-      );
+      const response = await axios.post(`${host}/login`, credentials, {
+        withCredentials: true,
+      });
       // Send alert
       enqueueSnackbar(response.data.message, { variant: "info" });
       // Set user information

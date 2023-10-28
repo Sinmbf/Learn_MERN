@@ -6,6 +6,7 @@ import { UserContext } from "../context/userContext";
 import { enqueueSnackbar } from "notistack";
 
 const NavBar = () => {
+  const host = "https://iblogs-backend-yhqi.onrender.com";
   const context = useContext(UserContext);
   const { userInfo, setUserInfo } = context;
   const navigate = useNavigate();
@@ -13,7 +14,7 @@ const NavBar = () => {
   // Function to fetch user information
   const fetchUser = async () => {
     try {
-      const response = await axios.get("http://localhost:5000/profile", {
+      const response = await axios.get(`${host}/profile`, {
         withCredentials: true,
       });
 
@@ -28,7 +29,7 @@ const NavBar = () => {
   }, []);
   // Function to handle logout
   const handleLogout = async () => {
-    await axios.get("http://localhost:5000/logout", {
+    await axios.get(`${host}/logout`, {
       withCredentials: true,
     });
     setUserInfo({});

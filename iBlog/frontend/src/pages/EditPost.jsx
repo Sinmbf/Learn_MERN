@@ -7,6 +7,7 @@ import { useNavigate, useParams } from "react-router-dom";
 import Editor from "../components/Editor";
 
 const EditPost = () => {
+  const host = "https://iblogs-backend-yhqi.onrender.com";
   const { id } = useParams();
   const [postInfo, setPostInfo] = useState({});
   const [content, setContent] = useState("");
@@ -18,7 +19,7 @@ const EditPost = () => {
 
   // Function to fetch post to be edited
   const fetchPosts = async () => {
-    const response = await axios.get(`http://localhost:5000/fetchpost/${id}`);
+    const response = await axios.get(`${host}/fetchpost/${id}`);
     setPostInfo(response.data);
     setContent(response.data.content);
   };
@@ -41,11 +42,9 @@ const EditPost = () => {
     newData.set("file", file[0]);
     try {
       setLoading(true);
-      const response = await axios.patch(
-        `http://localhost:5000/editpost/${id}`,
-        newData,
-        { withCredentials: true }
-      );
+      const response = await axios.patch(`${host}/editpost/${id}`, newData, {
+        withCredentials: true,
+      });
       enqueueSnackbar(response.data.message, { variant: "success" });
       setLoading(false);
       navigate("/post/" + id);

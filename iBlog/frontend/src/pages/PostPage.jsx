@@ -5,6 +5,7 @@ import { useParams, Link } from "react-router-dom";
 import { UserContext } from "../context/userContext";
 
 const PostPage = () => {
+  const host = "https://iblogs-backend-yhqi.onrender.com";
   const { userInfo } = useContext(UserContext);
   const { id } = useParams();
   const [singlePost, setSinglePost] = useState({});
@@ -14,7 +15,7 @@ const PostPage = () => {
   const fetchPost = async () => {
     try {
       setLoading(true);
-      const response = await axios.get(`http://localhost:5000/fetchpost/${id}`);
+      const response = await axios.get(`${host}/fetchpost/${id}`);
       console.log(response.data);
       console.log(userInfo);
       setSinglePost(response.data);
@@ -69,7 +70,7 @@ const PostPage = () => {
         <div className="w-full h-full mb-3">
           <img
             className="w-full h-full rounded"
-            src={"http://localhost:5000/" + imagePath}
+            src={`${host}/` + imagePath}
             alt=""
           />
         </div>

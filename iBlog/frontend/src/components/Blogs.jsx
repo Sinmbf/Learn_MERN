@@ -3,13 +3,14 @@ import { useEffect, useState } from "react";
 import axios from "axios";
 import BlogItem from "./BlogItem";
 const Blogs = () => {
+  const host = "https://iblogs-backend-yhqi.onrender.com";
   const [posts, setPosts] = useState([]);
   const [loading, setLoading] = useState(false);
   // Function to fetch posts
   const fetchPosts = async () => {
     setLoading(true);
     try {
-      const response = await axios.get("http://localhost:5000/getposts");
+      const response = await axios.get(`${host}/getposts`);
       setPosts(response.data);
       setLoading(false);
     } catch (error) {
