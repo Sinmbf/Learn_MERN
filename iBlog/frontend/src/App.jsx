@@ -6,19 +6,23 @@ import Register from "./pages/Register";
 import Footer from "./components/Footer";
 import { UserContextProvider } from "./context/userContext";
 import CreatePost from "./pages/CreatePost";
+import PostPage from "./pages/PostPage";
+import EditPost from "./pages/EditPost";
 function App() {
   return (
     <UserContextProvider>
-      <main className="max-w-2xl p-2 mx-auto">
+      <main className="max-w-4xl p-2 mx-auto">
         {/* Navigation Bar */}
         <NavBar />
         {/* Available Routes */}
-        <div className="container">
+        <div className="container max-w-4xl">
           <Routes>
             <Route index path="/" element={<Blogs />} />
             <Route path="/login" element={<Login />} />
             <Route path="/register" element={<Register />} />
             <Route path="/createpost" element={<CreatePost />} />
+            <Route path="/post/:id" element={<PostPage />} />
+            <Route path="/editpost/:id" element={<EditPost />} />
           </Routes>
         </div>
 

@@ -1,48 +1,25 @@
 import axios from "axios";
 import { useState } from "react";
-import ReactQuill from "react-quill";
 import "react-quill/dist/quill.snow.css";
 import { useSnackbar } from "notistack";
 import { useNavigate } from "react-router-dom";
-
-const modules = {
-  toolbar: [
-    [{ header: [1, 2, false] }],
-    ["bold", "italic", "underline", "strike", "blockquote"],
-    [
-      { list: "ordered" },
-      { list: "bullet" },
-      { indent: "-1" },
-      { indent: "+1" },
-    ],
-    ["link", "image"],
-    ["clean"],
-  ],
-};
-const formats = [
-  "header",
-  "bold",
-  "italic",
-  "underline",
-  "strike",
-  "blockquote",
-  "list",
-  "bullet",
-  "indent",
-  "link",
-  "image",
-];
+import Editor from "../components/Editor";
 
 const CreatePost = () => {
   const [postInfo, setPostInfo] = useState({});
   const [content, setContent] = useState("");
   const [file, setFile] = useState("");
+  const [editorLength, setEditorLength] = useState(1);
   const { enqueueSnackbar } = useSnackbar();
   const navigate = useNavigate();
 
   // Function to handle submit
   const handleSubmit = async (e) => {
     e.preventDefault();
+    if (editorLength === 1) {
+      enqueueSnackbar("Please fill in the contents", { variant: "warning" });
+      return;
+    }
     const data = new FormData();
     data.set("title", postInfo.title);
     data.set("summary", postInfo.summary);
@@ -69,14 +46,18 @@ const CreatePost = () => {
       return { ...currentInfo, [e.target.name]: e.target.value };
     });
   };
-  //   console.log(content);
+  // Function to handle handleEditorChange
+  const handleEditorChange = (newValue, delta, source, editor) => {
+    setEditorLength(editor.getLength);
+    setContent(newValue);
+  };
   return (
     <>
       <div className="text-center mb-7">
         <h2 className="text-3xl text-indigo-900">Create a new post</h2>
       </div>
       <form
-        className="grid grid-cols-1 place-items-center rounded-md p-4 border-2 border-indigo-800 max-w-2xl mx-auto"
+        className="grid grid-cols-1 place-items-center rounded-md p-4 border-2 border-indigo-800 max-w-3xl mx-auto"
         onSubmit={handleSubmit}
       >
         {/* Title */}
@@ -124,14 +105,9 @@ const CreatePost = () => {
           />
         </div>
         {/* Description */}
-        <ReactQuill
-          className="w-full h-[20rem] mb-16"
-          modules={modules}
-          formats={formats}
-          onChange={(newValue) => setContent(newValue)}
-        />
+        <Editor handleEditorChange={handleEditorChange} value={content} />
         {/* Submit button */}
-        <button className="p-3 mt-5 tracking-wide text-md text-white bg-indigo-600 rounded-md w-full hover:bg-indigo-800">
+        <button className="p-3 mt-5 tracking-wide text-md text-white bg-indigo-600 rounded-md w-full hover:bg-indigo-800 disabled:bg-indigo-300">
           Create Post
         </button>
       </form>

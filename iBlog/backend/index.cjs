@@ -153,8 +153,9 @@ app.get("/profile", async (req, res) => {
 });
 
 // ROUTE 4: Logout the user using POST : /logout
-app.post("/logout", (req, res) => {
-  res.cookie("authToken", "").send("Logged out");
+app.get("/logout", (req, res) => {
+  res.clearCookie("authToken");
+  res.send("Logged out");
 });
 
 // ROUTE 5: Delete all the user account using DELETE : /deleteuser
@@ -211,4 +212,74 @@ app.get("/getposts", async (req, res) => {
     return res.status(404).send({ message: "No posts available" });
   }
   res.json(posts);
+});
+
+// ROUTE 7: Get individual post by their id using GET : /fetchpost
+app.get("/fetchpost/:id", async (req, res) => {
+  try {
+    // Get the post id from the request parameters
+    const { id } = req.params;
+    // Find the post by id
+    const post = await Post.findById(id).populate("author", "username");
+    if (!post) {
+      return res.status(404).send("Post not found");
+    }
+    res.send(post);
+  } catch (error) {
+    console.log(error);
+    return res.status(400).send({ error: error.message });
+  }
+});
+
+// ROUTE 8: Edit the post using patch : /editpost/:id
+app.put("/editpost/:pid", uploadMiddleware.single("file"), async (req, res) => {
+  try {
+    // Get the post id from the request parameters
+    const { pid } = req.params;
+    // Get the auth token from the cookies
+    const { authToken } = req.cookies;
+    if (!authToken) {
+      return res.status(401).send("Invalid token");
+    }
+    // Get the user id from the user auth token
+    const { id } = jwt.verify(authToken, JWT_SECRET);
+    // Find the post to be updated
+    let post = await Post.findById(pid);
+    if (!post) {
+      return res.status(404).send("Post not found");
+    }
+    // Check if the post is being edited by the same author
+    if (post.author.toString() !== id) {
+      return res
+        .status(401)
+        .send("Not authorized! You are not the author of this post");
+    }
+    // Get the post information from the request body
+    const { title, summary, content } = req.body;
+    let newPath = "";
+    if (req.file) {
+      // Get the original file name from the request files
+      const { originalname, path } = req.file;
+      // Rename the original path
+      newPath = "uploads/" + originalname;
+      fs.renameSync(path, newPath);
+    }
+
+    // Make a new and updated post
+    let newPost = {};
+    newPost.title = title;
+    newPost.summary = summary;
+    newPost.content = content;
+    newPath?.length && (newPost.imagePath = newPath);
+
+    // If the post exists then update it
+    post = await Post.findByIdAndUpdate(pid, newPost, { new: true }).populate(
+      "author",
+      "username"
+    );
+    res.send({ message: "Post updated successfully", post });
+  } catch (error) {
+    console.log(error);
+    return res.status(400).send({ error: error.message });
+  }
 });

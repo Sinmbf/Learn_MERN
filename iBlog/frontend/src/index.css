@@ -1,3 +1,21 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+.PostPage a{
+    text-decoration:underline;
+    color:cadetblue;
+}
+
+h1{
+    font-size:34px;
+}
+h2{
+    font-size:32px;
+}
+h3{
+    font-size:26;
+}
+h4{
+    font-size:22;
+}

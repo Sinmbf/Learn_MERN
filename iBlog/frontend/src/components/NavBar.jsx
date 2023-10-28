@@ -28,7 +28,7 @@ const NavBar = () => {
   }, []);
   // Function to handle logout
   const handleLogout = async () => {
-    await axios.post("http://localhost:5000/logout", {
+    await axios.get("http://localhost:5000/logout", {
       withCredentials: true,
     });
     setUserInfo({});

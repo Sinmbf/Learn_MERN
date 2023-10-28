@@ -10,15 +10,14 @@ const Blogs = () => {
     setLoading(true);
     try {
       const response = await axios.get("http://localhost:5000/getposts");
-      console.log(response.data);
       setPosts(response.data);
       setLoading(false);
     } catch (error) {
       setLoading(false);
     }
   };
-  // Fetch all the posts
   useEffect(() => {
+    // Fetch all the posts
     fetchPosts();
   }, []);
   return (
