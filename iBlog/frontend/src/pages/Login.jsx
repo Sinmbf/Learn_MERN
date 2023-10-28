@@ -2,7 +2,7 @@ import { useContext, useState } from "react";
 import { useSnackbar } from "notistack";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
-import { UserContext } from "../context/userContext";
+import { UserContext } from "../context/UserContext";
 
 const Login = () => {
   const host = "https://iblogs-backend-yhqi.onrender.com";

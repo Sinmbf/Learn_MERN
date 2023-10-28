@@ -2,7 +2,7 @@
 import axios from "axios";
 import { useContext, useEffect } from "react";
 import { NavLink, useNavigate } from "react-router-dom";
-import { UserContext } from "../context/userContext";
+import { UserContext } from "../context/UserContext";
 import { enqueueSnackbar } from "notistack";
 
 const NavBar = () => {

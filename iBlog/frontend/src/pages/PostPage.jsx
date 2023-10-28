@@ -2,7 +2,7 @@
 import axios from "axios";
 import { useContext, useEffect, useState } from "react";
 import { useParams, Link } from "react-router-dom";
-import { UserContext } from "../context/userContext";
+import { UserContext } from "../context/UserContext";
 
 const PostPage = () => {
   const host = "https://iblogs-backend-yhqi.onrender.com";
