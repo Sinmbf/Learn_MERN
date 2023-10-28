@@ -4,7 +4,7 @@ import NavBar from "./components/NavBar";
 import Login from "./pages/Login";
 import Register from "./pages/Register";
 import Footer from "./components/Footer";
-import { UserContextProvider } from "./context/userContext";
+import UserContextProvider from "./context/userContext";
 import CreatePost from "./pages/CreatePost";
 import PostPage from "./pages/PostPage";
 import EditPost from "./pages/EditPost";
