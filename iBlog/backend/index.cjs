@@ -37,7 +37,7 @@ const uploadMiddleware = multer({
 // Middleware to fix cors
 app.use(
   cors({
-    origin: "http://localhost:5173",
+    origin: "https://marvelous-toffee-b77d1b.netlify.app",
     credentials: true,
   })
 );
