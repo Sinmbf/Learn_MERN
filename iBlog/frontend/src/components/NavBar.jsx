@@ -43,17 +43,22 @@ const NavBar = () => {
       >
         iBlog
       </NavLink>
-      <nav className="p-3">
+      <nav className="p-3 flex items-center justify-center gap-3">
         {username ? (
           <>
+            <div className="user-profile flex flex-col items-center rounded-md p-1 border-2 border-indigo-500 justify-center cursor-default">
+              <i className="fa-solid fa-user text-xl text-indigo-500" />
+              <p className="text-indigo-700 text-xs text-center">{username}</p>
+            </div>
+
             <NavLink
               to="/createpost"
-              className="bg-indigo-600 p-2 rounded-md text-white hover:text-gray-300 mx-1"
+              className="bg-indigo-600 p-2 rounded-md text-white hover:text-gray-300 text-center text-xs md:text-lg"
             >
-              Create New Post
+              Create Post
             </NavLink>
             <NavLink
-              className="bg-indigo-600 p-2 rounded-md text-white hover:text-gray-300 mx-1"
+              className="bg-indigo-600 p-2 rounded-md text-white hover:text-gray-300 text-xs md:text-lg text-center"
               onClick={handleLogout}
             >
               Logout
@@ -63,13 +68,13 @@ const NavBar = () => {
           <>
             <NavLink
               to="/login"
-              className="bg-indigo-600 p-2 rounded-md text-white hover:text-gray-300 mx-1"
+              className="bg-indigo-600 p-2 rounded-md text-white hover:text-gray-300"
             >
               Login
             </NavLink>
             <NavLink
               to="/register"
-              className="bg-indigo-600 p-2 rounded-md text-white hover:text-gray-300 mx-1"
+              className="bg-indigo-600 p-2 rounded-md text-white hover:text-gray-300"
             >
               Register
             </NavLink>

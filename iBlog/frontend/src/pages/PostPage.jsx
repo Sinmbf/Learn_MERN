@@ -52,7 +52,7 @@ const PostPage = () => {
         </div>
 
         {/* Edit Link */}
-        {userInfo?.id === singlePost?.author?._id && (
+        {userInfo?._id === singlePost?.author?._id && (
           <div className="self-start bg-teal-500 cursor-pointer p-2 rounded hover:bg-teal-600">
             <Link
               className="text-xl mb-3"

@@ -119,8 +119,7 @@ app.post("/login", async (req, res) => {
     const authToken = jwt.sign(userData, JWT_SECRET);
     res.cookie("authToken", authToken).send({
       message: `Welcome ${user.username}`,
-      authToken,
-      id: _id,
+      _id,
       username,
     });
   } catch (error) {
@@ -144,8 +143,10 @@ app.get("/profile", async (req, res) => {
     if (!user) {
       return res.status(404).send({ error: "User not found" });
     }
+    // Get the user id and username from the user Doc
+    const { _id, username } = user;
     // Send the user id as response
-    res.status(201).json(user);
+    res.status(201).send({ _id, username });
   } catch (error) {
     console.log(error);
     res.status(400).send({ error: error.message });
@@ -232,54 +233,58 @@ app.get("/fetchpost/:id", async (req, res) => {
 });
 
 // ROUTE 8: Edit the post using patch : /editpost/:id
-app.put("/editpost/:pid", uploadMiddleware.single("file"), async (req, res) => {
-  try {
-    // Get the post id from the request parameters
-    const { pid } = req.params;
-    // Get the auth token from the cookies
-    const { authToken } = req.cookies;
-    if (!authToken) {
-      return res.status(401).send("Invalid token");
-    }
-    // Get the user id from the user auth token
-    const { id } = jwt.verify(authToken, JWT_SECRET);
-    // Find the post to be updated
-    let post = await Post.findById(pid);
-    if (!post) {
-      return res.status(404).send("Post not found");
-    }
-    // Check if the post is being edited by the same author
-    if (post.author.toString() !== id) {
-      return res
-        .status(401)
-        .send("Not authorized! You are not the author of this post");
-    }
-    // Get the post information from the request body
-    const { title, summary, content } = req.body;
-    let newPath = "";
-    if (req.file) {
-      // Get the original file name from the request files
-      const { originalname, path } = req.file;
-      // Rename the original path
-      newPath = "uploads/" + originalname;
-      fs.renameSync(path, newPath);
-    }
+app.patch(
+  "/editpost/:pid",
+  uploadMiddleware.single("file"),
+  async (req, res) => {
+    try {
+      // Get the post id from the request parameters
+      const { pid } = req.params;
+      // Get the auth token from the cookies
+      const { authToken } = req.cookies;
+      if (!authToken) {
+        return res.status(401).send("Invalid token");
+      }
+      // Get the user id from the user auth token
+      const { id } = jwt.verify(authToken, JWT_SECRET);
+      // Find the post to be updated
+      let post = await Post.findById(pid);
+      if (!post) {
+        return res.status(404).send("Post not found");
+      }
+      // Check if the post is being edited by the same author
+      if (post.author.toString() !== id) {
+        return res
+          .status(401)
+          .send("Not authorized! You are not the author of this post");
+      }
+      // Get the post information from the request body
+      const { title, summary, content } = req.body;
+      let newPath = "";
+      if (req.file) {
+        // Get the original file name from the request files
+        const { originalname, path } = req.file;
+        // Rename the original path
+        newPath = "uploads/" + originalname;
+        fs.renameSync(path, newPath);
+      }
 
-    // Make a new and updated post
-    let newPost = {};
-    newPost.title = title;
-    newPost.summary = summary;
-    newPost.content = content;
-    newPath?.length && (newPost.imagePath = newPath);
+      // Make a new and updated post
+      let newPost = {};
+      newPost.title = title;
+      newPost.summary = summary;
+      newPost.content = content;
+      newPath?.length && (newPost.imagePath = newPath);
 
-    // If the post exists then update it
-    post = await Post.findByIdAndUpdate(pid, newPost, { new: true }).populate(
-      "author",
-      "username"
-    );
-    res.send({ message: "Post updated successfully", post });
-  } catch (error) {
-    console.log(error);
-    return res.status(400).send({ error: error.message });
+      // If the post exists then update it
+      post = await Post.findByIdAndUpdate(pid, newPost, { new: true }).populate(
+        "author",
+        "username"
+      );
+      res.send({ message: "Post updated successfully", post });
+    } catch (error) {
+      console.log(error);
+      return res.status(400).send({ error: error.message });
+    }
   }
-});
+);

@@ -80,6 +80,7 @@ const Register = () => {
           className="border-2 border-indigo-600 rounded-md p-2 w-full focus:outline-none focus:border-blue-500"
           required
           minLength={3}
+          maxLength={12}
           onChange={handleChange}
         />
       </div>

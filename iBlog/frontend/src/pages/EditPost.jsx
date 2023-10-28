@@ -41,7 +41,7 @@ const EditPost = () => {
     newData.set("file", file[0]);
     try {
       setLoading(true);
-      const response = await axios.put(
+      const response = await axios.patch(
         `http://localhost:5000/editpost/${id}`,
         newData,
         { withCredentials: true }
