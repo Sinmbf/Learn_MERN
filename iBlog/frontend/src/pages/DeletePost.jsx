@@ -1,4 +1,5 @@
 import axios from "axios";
+import { enqueueSnackbar } from "notistack";
 import { useNavigate, useParams } from "react-router-dom";
 
 const DeletePost = () => {
@@ -12,9 +13,12 @@ const DeletePost = () => {
         `https://iblogs-backend-yhqi.onrender.com/deletepost/${pid}`,
         { withCredentials: true }
       );
-      console.log(response.data);
+      enqueueSnackbar(response.data.message, { variant: "success" });
+      navigate("/");
     } catch (error) {
       console.log(error);
+      enqueueSnackbar(error.response.data, { variant: "error" });
+      navigate("/post/" + pid);
     }
   };
   // Function to handle cancel click
@@ -33,13 +37,13 @@ const DeletePost = () => {
         </p>
         <div className="buttons flex gap-2 self-end">
           <button
-            className="bg-slate-500 p-2 rounded-md text-white hover:bg-slate-600"
+            className="bg-slate-500 p-2 rounded-md text-white hover:bg-slate-600 text-center"
             onClick={handleCancelClick}
           >
             Cancel
           </button>
           <button
-            className="bg-red-500 p-2 rounded-md text-white hover:bg-red-600"
+            className="bg-red-500 p-2 rounded-md text-white hover:bg-red-600 text-center"
             onClick={handleDeleteClick}
           >
             Delete

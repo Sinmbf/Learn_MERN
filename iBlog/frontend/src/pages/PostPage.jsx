@@ -52,7 +52,7 @@ const PostPage = () => {
 
         {/* Edit Link */}
         {userInfo?._id === singlePost?.author?._id && (
-          <>
+          <div className="flex gap-2">
             <div className="self-start bg-teal-500 cursor-pointer p-2 rounded hover:bg-teal-600">
               {/* Edit Post */}
               <Link
@@ -64,7 +64,7 @@ const PostPage = () => {
                 <span>Edit post</span>
               </Link>
             </div>
-            <div className="self-start bg-red-500 cursor-pointer p-2 rounded hover:bg-red-600">
+            <div className="self-start bg-red-500 cursor-pointer p-2 rounded hover:bg-red-600 text-center">
               {/* Edit Post */}
               <Link
                 className="text-xl mb-3"
@@ -75,7 +75,7 @@ const PostPage = () => {
                 <span>Delete post</span>
               </Link>
             </div>
-          </>
+          </div>
         )}
 
         {/* Image */}
