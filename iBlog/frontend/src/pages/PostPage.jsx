@@ -52,16 +52,30 @@ const PostPage = () => {
 
         {/* Edit Link */}
         {userInfo?._id === singlePost?.author?._id && (
-          <div className="self-start bg-teal-500 cursor-pointer p-2 rounded hover:bg-teal-600">
-            <Link
-              className="text-xl mb-3"
-              to={`/editpost/${singlePost._id}`}
-              style={{ color: "white", textDecoration: "none" }}
-            >
-              <i className="fa-solid fa-pen-to-square me-1"></i>
-              <span>Edit this post</span>
-            </Link>
-          </div>
+          <>
+            <div className="self-start bg-teal-500 cursor-pointer p-2 rounded hover:bg-teal-600">
+              {/* Edit Post */}
+              <Link
+                className="text-xl mb-3"
+                to={`/editpost/${singlePost._id}`}
+                style={{ color: "white", textDecoration: "none" }}
+              >
+                <i className="fa-solid fa-pen-to-square me-1"></i>
+                <span>Edit post</span>
+              </Link>
+            </div>
+            <div className="self-start bg-red-500 cursor-pointer p-2 rounded hover:bg-red-600">
+              {/* Edit Post */}
+              <Link
+                className="text-xl mb-3"
+                to={`/deletepost/${singlePost._id}`}
+                style={{ color: "white", textDecoration: "none" }}
+              >
+                <i className="fa-solid fa-pen-to-square me-1"></i>
+                <span>Delete post</span>
+              </Link>
+            </div>
+          </>
         )}
 
         {/* Image */}

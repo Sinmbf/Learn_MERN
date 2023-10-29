@@ -302,3 +302,36 @@ app.patch(
     }
   }
 );
+
+// ROUTE 9: Delete the post using DELETE : /delete/:id
+app.delete("/deletepost/:pid", async (req, res) => {
+  try {
+    // Get the post id from the request parameters
+    const { pid } = req.params;
+    // Get the user auth token from the cookies
+    const { authToken } = req.cookies;
+    if (!authToken) {
+      return res.status(401).send("Invalid token");
+    }
+    // Get the user id from the auth token
+    const { id } = jwt.verify(authToken, JWT_SECRET);
+    // Find the post to be deleted and check if it exists
+    let post = await Post.findById(pid);
+    if (!post) {
+      return res.status(404).send("Post not found");
+    }
+    // Check if the post belongs to the same author
+    if (post.author.toString() !== id) {
+      return res
+        .status(401)
+        .send("Not authorized! You are not the author of this post.");
+    }
+    // If the post belongs to the author then delete it
+    post = await Post.findByIdAndDelete(pid);
+    // Send the message to the user
+    res.status(202).send({ message: "Post deleted successfully", post });
+  } catch (error) {
+    console.log(error);
+    res.status(400).send({ error: error.message });
+  }
+});
