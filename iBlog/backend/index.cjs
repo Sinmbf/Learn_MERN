@@ -37,7 +37,8 @@ const uploadMiddleware = multer({
 // Middleware to fix cors
 app.use(
   cors({
-    origin: "https://marvelous-toffee-b77d1b.netlify.app",
+    origin: "https://iblogs-frontend.onrender.com",
+    // origin: "https://marvelous-toffee-b77d1b.netlify.app",
     credentials: true,
   })
 );
