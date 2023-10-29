@@ -117,11 +117,19 @@ app.post("/login", async (req, res) => {
     };
     // Generate a json web token and send it as response
     const authToken = jwt.sign(userData, JWT_SECRET);
-    res.cookie("authToken", authToken).send({
-      message: `Welcome ${user.username}`,
-      _id,
-      username,
-    });
+    res
+      .cookie("authToken", authToken, {
+        httpOnly: true,
+        path: "/",
+        secure: true,
+        sameSite: "none",
+        maxAge: 3600000, // 1 hour
+      })
+      .send({
+        message: `Welcome ${user.username}`,
+        _id,
+        username,
+      });
   } catch (error) {
     console.log(error);
     res.status(400).send({ error: error.message });
