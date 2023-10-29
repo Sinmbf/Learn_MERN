@@ -16,8 +16,6 @@ const PostPage = () => {
     try {
       setLoading(true);
       const response = await axios.get(`${host}/fetchpost/${id}`);
-      console.log(response.data);
-      console.log(userInfo);
       setSinglePost(response.data);
       setLoading(false);
     } catch (error) {
