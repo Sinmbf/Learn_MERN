@@ -164,7 +164,12 @@ app.get("/profile", async (req, res) => {
 
 // ROUTE 4: Logout the user using POST : /logout
 app.get("/logout", (req, res) => {
-  res.clearCookie("authToken");
+  res.clearCookie("authToken", {
+    httpOnly: true,
+    path: "/",
+    sameSite: "none",
+    secure: true,
+  });
   res.send("Logged out");
 });
 
