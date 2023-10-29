@@ -52,7 +52,7 @@ const PostPage = () => {
 
         {/* Edit Link */}
         {userInfo?._id === singlePost?.author?._id && (
-          <div className="flex gap-2 items-start justify-start">
+          <div className="flex gap-2 self-start">
             <div className="self-start bg-teal-500 cursor-pointer p-2 rounded hover:bg-teal-600">
               {/* Edit Post */}
               <Link
