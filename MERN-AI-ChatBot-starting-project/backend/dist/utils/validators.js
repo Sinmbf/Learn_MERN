@@ -27,4 +27,7 @@ export const registerValidator = [
     body("name", "Name must be minimum 3 characters").isLength({ min: 3 }),
     ...loginValidator,
 ];
+export const chatCompletionValidator = [
+    body("message", "Message is required").notEmpty(),
+];
 //# sourceMappingURL=validators.js.map

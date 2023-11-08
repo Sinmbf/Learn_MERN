@@ -60,7 +60,9 @@ export const registerUser = async (
       httpOnly: true,
       signed: true,
     });
-    return res.status(201).json({ message: "Ok", id: user._id.toString() });
+    return res
+      .status(201)
+      .json({ message: "Ok", email: user.email, name: user.name });
   } catch (error) {
     console.log(error);
     res.status(500).send({ message: "Error", cause: error.message });
@@ -105,7 +107,35 @@ export const loginUser = async (
       httpOnly: true,
       signed: true,
     });
-    return res.status(201).json({ message: "Ok", id: user._id.toString() });
+    return res
+      .status(200)
+      .json({ message: "Ok", email: user.email, name: user.name });
+  } catch (error) {
+    console.log(error);
+    res.status(500).send({ message: "Error", cause: error.message });
+  }
+};
+
+// Controller function to verify a user
+export const verifyUser = async (
+  req: Request,
+  res: Response,
+  next: NextFunction
+) => {
+  try {
+    // Check if the user exists
+    let user = await User.findById(res.locals.jwtData.id);
+    if (!user) {
+      return res.status(401).send("User not registered or invalid token");
+    }
+    // Check if the id is same
+    if (user._id.toString() !== res.locals.jwtData.id) {
+      return res.status(401).send("Permissions didn't match");
+    }
+    // If verification successful then send the user details
+    return res
+      .status(200)
+      .json({ message: "Ok", email: user.email, name: user.name });
   } catch (error) {
     console.log(error);
     res.status(500).send({ message: "Error", cause: error.message });
