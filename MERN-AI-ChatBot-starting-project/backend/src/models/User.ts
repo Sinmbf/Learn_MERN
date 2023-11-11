@@ -1,10 +1,6 @@
 import { Schema, model } from "mongoose";
 
 const ChatSchema = new Schema({
-  id: {
-    type: String,
-    default: crypto.randomUUID(),
-  },
   role: {
     type: String,
     required: true,
