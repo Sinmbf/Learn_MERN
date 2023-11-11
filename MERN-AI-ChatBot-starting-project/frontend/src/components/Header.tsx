@@ -47,7 +47,6 @@ const Header = () => {
                 to="/signup"
                 text="Signup"
                 textColor="white"
-                onClick={auth?.logout}
               />
             </>
           )}

@@ -6,3 +6,7 @@
 .MuiOutlinedInput-notchedOutline {
   border-color: white !important;
 }
+
+.animate-spin {
+  animation: spin 2.4s linear infinite;
+}

@@ -1,11 +1,21 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 import { Box, Button, Typography } from "@mui/material";
 import CustomizedInput from "../components/shared/CustomizedInput";
 import { GrLogin } from "react-icons/gr";
 import { useAuth } from "../context/AuthContext";
 import toast from "react-hot-toast";
+import { useEffect } from "react";
+import { useNavigate } from "react-router-dom";
 // import {}
 const Login = () => {
   const auth = useAuth();
+  const navigate = useNavigate();
+  // Check if the user is logged in and if logged in then redirect to chat page
+  useEffect(() => {
+    if (auth?.user) {
+      return navigate("/chat");
+    }
+  }, [auth]);
   // Function to handle form submission
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();

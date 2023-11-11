@@ -2,6 +2,7 @@ import { NextFunction, Request, Response } from "express";
 import jwt from "jsonwebtoken";
 import { COOKIE_NAME } from "./constant.js";
 
+// Function to generate an auth token
 export const generateToken = (id: string, email: string, expiresIn: string) => {
   // Get the data provided by the client
   const payload = { id, email };
@@ -12,6 +13,7 @@ export const generateToken = (id: string, email: string, expiresIn: string) => {
   return token;
 };
 
+// Function to verify the token of the user
 export const verifyToken = async (
   req: Request,
   res: Response,

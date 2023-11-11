@@ -69,7 +69,7 @@ export const registerUser = async (
   }
 };
 
-// Controller function to register a user
+// Controller function to login a user
 export const loginUser = async (
   req: Request,
   res: Response,
@@ -95,7 +95,7 @@ export const loginUser = async (
       signed: true,
       path: "/",
     });
-    // If valid credentials are entered then generate a token and send it as response
+    // If valid credentials are entered then generate a token and store it as cookie
     const token = generateToken(user._id.toString(), user.email, "7d");
     const expires = new Date();
     expires.setDate(expires.getDate() + 7);
@@ -136,6 +136,36 @@ export const verifyUser = async (
     return res
       .status(200)
       .json({ message: "Ok", email: user.email, name: user.name });
+  } catch (error) {
+    console.log(error);
+    res.status(500).send({ message: "Error", cause: error.message });
+  }
+};
+
+// Controller function to logout a user
+export const userLogout = async (
+  req: Request,
+  res: Response,
+  next: NextFunction
+) => {
+  try {
+    // Check if the user exists
+    let user = await User.findById(res.locals.jwtData.id);
+    if (!user) {
+      return res.status(401).send("User not registered or invalid token");
+    }
+    // Check if the id is same
+    if (user._id.toString() !== res.locals.jwtData.id) {
+      return res.status(401).send("Permissions didn't match");
+    }
+    // If verification successful then clear the cookies of the user
+    res.clearCookie(COOKIE_NAME, {
+      httpOnly: true,
+      domain: "localhost",
+      signed: true,
+      path: "/",
+    });
+    return res.status(200).json({ message: "Ok" });
   } catch (error) {
     console.log(error);
     res.status(500).send({ message: "Error", cause: error.message });

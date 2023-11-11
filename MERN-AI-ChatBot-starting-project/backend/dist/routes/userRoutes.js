@@ -1,5 +1,5 @@
 import { Router } from "express";
-import { getAllUsers, registerUser, loginUser, verifyUser, } from "../controllers/userControllers.js";
+import { getAllUsers, registerUser, loginUser, verifyUser, userLogout, } from "../controllers/userControllers.js";
 import { loginValidator, registerValidator, validate, } from "../utils/validators.js";
 import { verifyToken } from "../utils/tokenManager.js";
 const userRoutes = Router();
@@ -11,5 +11,7 @@ userRoutes.post("/register", validate(registerValidator), registerUser);
 userRoutes.post("/login", validate(loginValidator), loginUser);
 // USER ROUTE 4: Check the auth status of a user :/api/v1/user/auth-status
 userRoutes.get("/auth-status", verifyToken, verifyUser);
+// USER ROUTE 4: Logout the user :/api/v1/user/logout
+userRoutes.get("/logout", verifyToken, userLogout);
 export default userRoutes;
 //# sourceMappingURL=userRoutes.js.map

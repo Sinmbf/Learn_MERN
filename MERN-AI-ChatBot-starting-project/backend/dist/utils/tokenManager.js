@@ -1,5 +1,6 @@
 import jwt from "jsonwebtoken";
 import { COOKIE_NAME } from "./constant.js";
+// Function to generate an auth token
 export const generateToken = (id, email, expiresIn) => {
     // Get the data provided by the client
     const payload = { id, email };
@@ -9,6 +10,7 @@ export const generateToken = (id, email, expiresIn) => {
     });
     return token;
 };
+// Function to verify the token of the user
 export const verifyToken = async (req, res, next) => {
     const token = req.signedCookies[`${COOKIE_NAME}`];
     if (!token || token.trim() === "") {
