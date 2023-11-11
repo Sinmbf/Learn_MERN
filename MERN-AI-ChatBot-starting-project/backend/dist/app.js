@@ -11,7 +11,7 @@ const app = express();
 app.use(express.json());
 // Middleware to fix cors
 app.use(cors({
-    origin: "http://localhost:5173",
+    origin: "https://chatbot-frontend-sco1.onrender.com",
     credentials: true,
 }));
 // Morgan gives log description about what type of request was handled and what was the response and status code
