@@ -45,9 +45,9 @@ export const registerUser = async (
     // Create token and store it as cookie
     res.clearCookie(COOKIE_NAME, {
       httpOnly: true,
-      domain: "localhost",
       signed: true,
       path: "/",
+      sameSite: "none",
     });
     const token = generateToken(user._id.toString(), user.email, "7d");
     const expires = new Date();
@@ -55,10 +55,10 @@ export const registerUser = async (
     // Set the token as cookie
     res.cookie(COOKIE_NAME, token, {
       path: "/",
-      domain: "localhost",
       expires,
       httpOnly: true,
       signed: true,
+      sameSite: "none",
     });
     return res
       .status(201)
@@ -91,9 +91,9 @@ export const loginUser = async (
     // If the user logins again then clear previous cookie to add a new one
     res.clearCookie(COOKIE_NAME, {
       httpOnly: true,
-      domain: "localhost",
       signed: true,
       path: "/",
+      sameSite: "none",
     });
     // If valid credentials are entered then generate a token and store it as cookie
     const token = generateToken(user._id.toString(), user.email, "7d");
@@ -102,10 +102,10 @@ export const loginUser = async (
     // Set the token as cookie
     res.cookie(COOKIE_NAME, token, {
       path: "/",
-      domain: "localhost",
       expires,
       httpOnly: true,
       signed: true,
+      sameSite: "none",
     });
     return res
       .status(200)
@@ -161,9 +161,9 @@ export const userLogout = async (
     // If verification successful then clear the cookies of the user
     res.clearCookie(COOKIE_NAME, {
       httpOnly: true,
-      domain: "localhost",
       signed: true,
       path: "/",
+      sameSite: "none",
     });
     return res.status(200).json({ message: "Ok" });
   } catch (error) {
