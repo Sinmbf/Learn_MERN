@@ -37,6 +37,7 @@ export const registerUser = async (req, res, next) => {
             httpOnly: true,
             signed: true,
             path: "/",
+            secure: true,
             sameSite: "none",
         });
         const token = generateToken(user._id.toString(), user.email, "7d");
@@ -48,6 +49,7 @@ export const registerUser = async (req, res, next) => {
             expires,
             httpOnly: true,
             signed: true,
+            secure: true,
             sameSite: "none",
         });
         return res
@@ -79,6 +81,7 @@ export const loginUser = async (req, res, next) => {
             httpOnly: true,
             signed: true,
             path: "/",
+            secure: true,
             sameSite: "none",
         });
         // If valid credentials are entered then generate a token and store it as cookie
@@ -91,6 +94,7 @@ export const loginUser = async (req, res, next) => {
             expires,
             httpOnly: true,
             signed: true,
+            secure: true,
             sameSite: "none",
         });
         return res
@@ -141,6 +145,7 @@ export const userLogout = async (req, res, next) => {
             httpOnly: true,
             signed: true,
             path: "/",
+            secure: true,
             sameSite: "none",
         });
         return res.status(200).json({ message: "Ok" });
