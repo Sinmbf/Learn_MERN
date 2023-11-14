@@ -108,7 +108,7 @@ export const loginUser = async (req, res) => {
             expires,
         });
         return res
-            .status(201)
+            .status(200)
             .json({ message: "Ok", name: user.name, email: user.email });
     }
     catch (error) {

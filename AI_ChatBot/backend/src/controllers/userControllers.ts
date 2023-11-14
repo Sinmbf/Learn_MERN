@@ -109,7 +109,7 @@ export const loginUser = async (req: Request, res: Response) => {
       expires,
     });
     return res
-      .status(201)
+      .status(200)
       .json({ message: "Ok", name: user.name, email: user.email });
   } catch (error) {
     console.log(error);
