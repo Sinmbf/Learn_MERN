@@ -6,8 +6,10 @@ import RegisterPage from "./pages/RegisterPage";
 import ChatPage from "./pages/ChatPage";
 import NotFound from "./pages/NotFound";
 import Footer from "./components/Footer";
+import { useAuth } from "./contexts/useContext";
 
 const App = () => {
+  const auth = useAuth();
   return (
     <>
       {/* Headers */}
@@ -21,7 +23,9 @@ const App = () => {
           <Route path="/" element={<HomePage />} />
           <Route path="/login" element={<LoginPage />} />
           <Route path="/register" element={<RegisterPage />} />
-          <Route path="/chats" element={<ChatPage />} />
+          {auth?.user && auth?.isLoggedIn && (
+            <Route path="/chats" element={<ChatPage />} />
+          )}
           <Route path="*" element={<NotFound />} />
         </Routes>
       </div>

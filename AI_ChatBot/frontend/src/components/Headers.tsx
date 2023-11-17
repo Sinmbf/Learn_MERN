@@ -24,7 +24,12 @@ const Headers = () => {
           {auth?.isLoggedIn ? (
             <>
               <LinkButtons text="Go to Chat" bgcolor="primary" to="/chats" />
-              <LinkButtons text="Logout" bgcolor="error" to="/" />
+              <LinkButtons
+                text="Logout"
+                bgcolor="error"
+                to="/"
+                onClick={auth?.logout}
+              />
             </>
           ) : (
             <>

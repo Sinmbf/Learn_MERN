@@ -1,8 +1,9 @@
 import User from "../models/User.js";
 import bcrypt from "bcrypt";
 import { generateToken } from "../utils/tokenManager.js";
+import { COOKIE_NAME } from "../utils/constant.js";
 // Controller function to get all the users
-export const getUser = async (req, res) => {
+export const getAllUsers = async (req, res) => {
     try {
         // Get all the users from the database
         const user = await User.find();
@@ -31,30 +32,28 @@ export const registerUser = async (req, res) => {
         // If user doesn't exist then create a new one
         user = new User({ name, email, password: hashedPassword });
         await user.save();
-        res.clearCookie(process.env.COOKIE_NAME, {
-            path: "/",
-            domain: "localhost",
+        res.clearCookie(COOKIE_NAME, {
             httpOnly: true,
+            signed: true,
+            path: "/",
             secure: true,
             sameSite: "none",
-            signed: true,
         });
         // Generate a token and set it as cookie
-        const token = generateToken(user.email, user._id.toString(), "7d");
+        const token = generateToken(user._id.toString(), user.email, "7d");
         if (!token) {
             return res.status(500).send("Failed to generate token");
         }
         // Set the expiry date of cookie
         const expires = new Date();
         expires.setDate(expires.getDate() + 7);
-        res.cookie(process.env.COOKIE_NAME, token, {
-            httpOnly: true,
+        res.cookie(COOKIE_NAME, token, {
             path: "/",
-            secure: true,
-            domain: "localhost",
-            sameSite: "none",
-            signed: true,
             expires,
+            httpOnly: true,
+            signed: true,
+            secure: true,
+            sameSite: "none",
         });
         return res
             .status(201)
@@ -81,16 +80,15 @@ export const loginUser = async (req, res) => {
             return res.status(401).send("Invalid credentials");
         }
         // If the user logins again then clear the previous cookie and set a new one
-        res.clearCookie(process.env.COOKIE_NAME, {
-            path: "/",
-            domain: "localhost",
+        res.clearCookie(COOKIE_NAME, {
             httpOnly: true,
+            signed: true,
+            path: "/",
             secure: true,
             sameSite: "none",
-            signed: true,
         });
         // Generate a token and set it as cookie
-        const token = generateToken(user.email, user._id.toString(), "7d");
+        const token = generateToken(user._id.toString(), user.email, "7d");
         if (!token) {
             return res.status(500).send("Failed to generate token");
         }
@@ -98,18 +96,70 @@ export const loginUser = async (req, res) => {
         const expires = new Date();
         expires.setDate(expires.getDate() + 7);
         // Set the token as cookie
-        res.cookie(process.env.COOKIE_NAME, token, {
-            httpOnly: true,
+        res.cookie(COOKIE_NAME, token, {
             path: "/",
-            secure: true,
-            domain: "localhost",
-            sameSite: "none",
-            signed: true,
             expires,
+            httpOnly: true,
+            signed: true,
+            secure: true,
+            sameSite: "none",
         });
         return res
             .status(200)
             .json({ message: "Ok", name: user.name, email: user.email });
+    }
+    catch (error) {
+        console.log(error);
+        return res.status(500).json({ message: "Error", reason: error.message });
+    }
+};
+// Controller function to verify user
+export const verifyUser = async (req, res, next) => {
+    try {
+        const userId = res.locals.jwtData.id;
+        // Find the user by their id in the database
+        let user = await User.findById(userId);
+        if (!user) {
+            return res.status(401).send("User not registered or invalid token");
+        }
+        // Check if the user Id matches with the one stored in the database
+        if (user._id.toString() !== userId) {
+            return res.status(401).send("Permissions didn't match");
+        }
+        console.log("Token verification successful");
+        // If user verification successful then send the user data
+        return res
+            .status(200)
+            .json({ message: "Ok", name: user.name, email: user.email });
+    }
+    catch (error) {
+        console.log(error);
+        return res.status(500).json({ message: "Error", reason: error.message });
+    }
+};
+// Controller function to logout user
+export const logoutUser = async (req, res, next) => {
+    try {
+        const userId = res.locals.jwtData.id;
+        // Find the user by their id in the database
+        let user = await User.findById(userId);
+        if (!user) {
+            return res.status(401).send("User not registered or invalid token");
+        }
+        // Check if the user Id matches with the one stored in the database
+        if (user._id.toString() !== userId) {
+            return res.status(401).send("Permissions didn't match");
+        }
+        console.log("Token verification successful");
+        // If user verification successful then lgout the user
+        res.clearCookie(COOKIE_NAME, {
+            httpOnly: true,
+            signed: true,
+            path: "/",
+            secure: true,
+            sameSite: "none",
+        });
+        return res.status(200).json({ message: "Ok" });
     }
     catch (error) {
         console.log(error);

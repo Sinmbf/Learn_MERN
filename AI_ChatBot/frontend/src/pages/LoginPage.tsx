@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 /* eslint-disable @typescript-eslint/ban-ts-comment */
 import { Box, Button, Typography } from "@mui/material";
 import FormInput from "../components/shared/FormInput";
@@ -5,12 +6,17 @@ import { Login } from "@mui/icons-material";
 import { useAuth } from "../contexts/useContext";
 import toast from "react-hot-toast";
 import { useNavigate } from "react-router-dom";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
 const LoginPage = () => {
   const auth = useAuth();
   const navigate = useNavigate();
   const [error, setError] = useState("");
+  useEffect(() => {
+    if (auth?.user) {
+      navigate("/");
+    }
+  }, [auth]);
   // Function to handle submit
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();

@@ -24,7 +24,7 @@
     "mongoose": "^8.0.0",
     "morgan": "^1.10.0",
     "npx": "^10.2.2",
-    "openai": "^4.17.4"
+    "openai": "^4.19.0"
   },
   "devDependencies": {
     "@types/bcrypt": "^5.0.0",
