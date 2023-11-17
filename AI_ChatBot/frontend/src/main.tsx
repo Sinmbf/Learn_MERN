@@ -8,7 +8,7 @@ import { Toaster } from "react-hot-toast";
 import { ThemeProvider } from "@mui/material/styles";
 import axios from "axios";
 import { AuthContextProvider } from "./contexts/AuthContext.tsx";
-axios.defaults.baseURL = "http://localhost:5000/api/v1";
+axios.defaults.baseURL = "https://ai-chatbot-backend-n13e.onrender.com/api/v1";
 axios.defaults.withCredentials = true;
 
 const darkTheme = createTheme({
