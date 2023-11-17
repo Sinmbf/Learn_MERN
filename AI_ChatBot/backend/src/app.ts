@@ -13,7 +13,7 @@ app.use(express.json());
 // Middleware to fix cors
 app.use(
   cors({
-    origin: "http://localhost:5173",
+    origin: "https://ai-chatbot-frontend.onrender.com",
     credentials: true,
   })
 );

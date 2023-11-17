@@ -1,4 +1,4 @@
-import { openai } from "../config/open-ai-config.js";
+import { configureOpenAi } from "../config/open-ai-config.js";
 import User from "../models/User.js";
 // Controller function to get all the chats of the user
 export const getAllChats = async (req, res, next) => {
@@ -36,6 +36,7 @@ export const generateNewChat = async (req, res, next) => {
         chats.push({ role: "user", content: message });
         // Add the new chats in the database
         user.chats.push({ role: "user", content: message });
+        const openai = configureOpenAi();
         // Generate open api chat completion
         const chatCompletion = await openai.chat.completions.create({
             model: "gpt-3.5-turbo",

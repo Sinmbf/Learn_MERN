@@ -10,7 +10,7 @@ const app = express();
 app.use(express.json());
 // Middleware to fix cors
 app.use(cors({
-    origin: "http://localhost:5173",
+    origin: "https://ai-chatbot-frontend.onrender.com",
     credentials: true,
 }));
 // Middleware to show development logs of request, response and status code
