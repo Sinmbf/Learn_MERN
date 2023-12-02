@@ -1,0 +1,43 @@
+@import url("https://fonts.googleapis.com/css2?family=Gelasio&family=Inter:wght@400;500&display=swap");
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer components {
+  .navbar {
+    @apply sticky top-0 z-10 flex items-center gap-3 p-5 w-full shadow-md;
+  }
+
+  .searchInput {
+    @apply border-gray-500 border-2 p-2 pl-3 sm:pl-8 mt-4 sm:mt-0 rounded-full outline-1 outline-indigo-700 placeholder:text-gray-600 w-full sm:w-auto;
+  }
+
+  .searchIcon {
+    @apply absolute right-[2rem] top-1/2 sm:-translate-y-1/2 sm:left-[5.2rem] md:left-[4.6rem] text-gray-500;
+  }
+
+  .showSearchBar {
+    @apply opacity-100 pointer-events-auto;
+  }
+
+  .hideSearchBar {
+    @apply opacity-0 pointer-events-none duration-100;
+  }
+
+  .link {
+    @apply hidden md:flex items-center gap-1 cursor-pointer p-2 rounded-md bg-slate-300 hover:bg-opacity-80;
+  }
+
+  .inputBox {
+    @apply p-3 w-full bg-gray-200 outline-1 outline-indigo-600 mb-5;
+  }
+
+  .inputIcon {
+    @apply absolute left-4 top-[35%] -translate-y-1/2;
+  }
+
+  .passwordIcon {
+    @apply absolute top-[35%] right-4 -translate-y-[50%] text-[1.2rem] cursor-pointer;
+  }
+}
