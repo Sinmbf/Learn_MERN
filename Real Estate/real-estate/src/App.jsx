@@ -1,9 +1,10 @@
 import { BrowserRouter, Routes, Route } from "react-router-dom";
-import { Home, About, Profile, LogIn, LogOut } from "./pages";
+import { Home, About, Profile, LogIn, LogOut, Header } from "./index";
 
 const App = () => {
   return (
     <BrowserRouter>
+      <Header />
       <Routes>
         {/* Home */}
         <Route path="/" element={<Home />} />

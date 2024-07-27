@@ -1,3 +1,9 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+@layer components {
+  .searchBar {
+    @apply placeholder:text-slate-600 bg-transparent p-3 focus:outline-none focus:placeholder:text-slate-400 w-32 sm:w-64;
+  }
+}
