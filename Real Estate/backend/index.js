@@ -1,7 +1,7 @@
 import express from "express";
 import mongoose from "mongoose";
 import dotenv from "dotenv";
-import userRouter from "./routes/userRoute.js";
+import userRoute from "./routes/userRoute.js";
 // Configure environment variable
 dotenv.config();
 
@@ -25,4 +25,4 @@ app.listen(PORT, () => {
 // Use Routes
 
 // Route 1: /api/user/ Using GET
-app.use("/api/user/", userRouter);
+app.use("/api/user/", userRoute);
