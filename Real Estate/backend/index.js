@@ -1,6 +1,7 @@
 import express from "express";
 import mongoose from "mongoose";
 import dotenv from "dotenv";
+import userRouter from "./routes/userRoute.js";
 // Configure environment variable
 dotenv.config();
 
@@ -20,3 +21,8 @@ mongoose
 app.listen(PORT, () => {
   console.log(`Server running on port: ${PORT}`);
 });
+
+// Use Routes
+
+// Route 1: /api/user/ Using GET
+app.use("/api/user/", userRouter);
