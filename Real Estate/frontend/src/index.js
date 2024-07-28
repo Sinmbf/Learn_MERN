@@ -4,4 +4,5 @@ import Profile from "./pages/Profile";
 import LogIn from "./pages/LogIn";
 import LogOut from "./pages/LogOut";
 import Header from "./components/Header";
-export { Home, About, Profile, LogIn, LogOut, Header };
+import SignUp from "./pages/SignUp";
+export { Home, About, Profile, LogIn, LogOut,SignUp, Header };
