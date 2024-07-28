@@ -1,7 +1,8 @@
 import User from "../models/userModel.js";
 import bcryptjs from "bcryptjs";
+import { errorHandler } from "../utils/errorHandler.js";
 
-export const signUp = async (req, res) => {
+export const signUp = async (req, res, next) => {
   // Get user credentials
   const { username, email, password } = req.body;
   // Encrypt the password
@@ -14,6 +15,6 @@ export const signUp = async (req, res) => {
     await newUser.save(); // wait until saved to database
     res.status(201).json({ message: "User created successfully" }); // 201 => Create something successfully
   } catch (error) {
-    res.status(500).json(error.message); // 500 => Internal Sever Error
+    next(error); // Use the middleware
   }
 };

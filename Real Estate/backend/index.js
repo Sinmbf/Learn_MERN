@@ -26,10 +26,21 @@ app.listen(PORT, () => {
   console.log(`Server running on port: ${PORT}`);
 });
 
-// Use Routes
+// Use Routes (MiddleWares)
 
 // Route 1: /api/user/ Using GET
 app.use("/api/user", userRoute);
 
 // Route 2: /api/auth/ Using POSt
 app.use("/api/auth", authRoute);
+
+// Middleware to handle error
+app.use((err, req, res, next) => {
+  const statusCode = err.statusCode || 500;
+  const message = err.message || "Internal Server Error";
+  return res.status(statusCode).json({
+    success: false,
+    statusCode,
+    message,
+  });
+});
